@@ -1,13 +1,35 @@
 import { Router } from "express";
-
+import { body, query } from "express-validator";
+import {
+  createProduct,
+  deleteProduct,
+  getProduct,
+  getUserProducts,
+  updateProduct,
+} from "./handlers/product";
+import { validateInput } from "./utils/middleware";
 const router = Router();
 
 // Product
-router.get("/product", () => {});
-router.get("/product/:id", () => {});
-router.put("/product/:id", () => {});
-router.post("/product", () => {});
-router.delete("/product/:id", () => {});
+router.get("/product", getUserProducts);
+router.get("/product/:id", getProduct);
+router.put(
+  "/product/:id",
+  body("name").isString().notEmpty(),
+  validateInput,
+  updateProduct
+);
+router.post(
+  "/product",
+  body("name").isString().notEmpty(),
+  validateInput,
+  createProduct
+);
+router.delete(
+  "/product/:id",
+
+  deleteProduct
+);
 
 // Update
 router.get("/update", () => {});
